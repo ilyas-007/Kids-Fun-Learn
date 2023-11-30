@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Learning Games for Kids</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    img {
+      max-width: 70%;
+      height: auto;
+    }
+    .plant-container {
+        cursor: pointer;
+
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .plant-info {
+        display: none;
+        margin-top: 0px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Learning Games for Kids</h1>
+
+  <!-- Math Challenge Game Section -->
+
+  <section1>
+    <h2>Math Challenge Game</h2>
+
+    <p id="question"></p>
+    <input type="text" id="answer" placeholder="Your answer">
+    <button onclick="checkAnswer()">Check answer</button>
+
+    <p id="result"></p>
+    <p>Score: <span id="score">0</span></p>
+    <p>Time Left: <span id="timer">60</span> seconds</p>
+  </section1>
+
+  <!-- Animal Safari Exploration Section -->
+
+  <section2>
+    <h2>Animal Safari Exploration</h2>
+    <img id="animalImage" alt="">
+    <p id="animalInfo"></p>
+    <button onclick="exploreSafari()">Explore Safari</button>
+  </section2>
+
+
+ <section3>
+  <div class="plant-container" id="rose">
+    <h2>Plants</h2>
+    <p>Dive into the world of plants and flowers! Learn about them</p>
+
+    
+    <h3><button onclick="Plants()">Rose🌹</button> </h3>
+    <div class="plant-info">
+        <img src="https://media.istockphoto.com/id/1256125259/photo/pink-roses-in-garden.jpg?s=612x612&w=0&k=20&c=_Ook5Blxe5_k5g8J3Y8KkUQPO8lo53SGVKWb53F-sPQ=" alt="Rose Image" width="200">
+        <p>Uses: Roses are often used for ornamental purposes, perfumes, and in cooking. They are also a symbol of love and beauty.</p>
+    </div>
+</div>
+
+<div class="plant-container" id="basil">
+    <h3><button onclick="Plants()">Basil🌿</button></h3>
+    <div class="plant-info">
+        <img src="https://www.marthastewart.com/thmb/Yhu57XTilZFA3rJum_lgTE-4T2E=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/fresh-basil-getty-0421-d35ca06fec1a4cb596615eed5aa57335.jpg" alt="Basil Image" width="200">
+        <p>Uses: Basil is widely used in cooking, especially in Italian cuisine. It has medicinal properties and is known for its aromatic leaves.</p>
+    </div>
+</div>
+
+</section3>
+
+  <script>
+    // Math Challenge Game Code
+    let score = 0;
+    let timer = 60;
+    let timerInterval;
+
+    function generateQuestion() {
+      const num1 = Math.floor(Math.random() * 10);
+      const num2 = Math.floor(Math.random() * 10);
+      return `${num1} + ${num2}`;
+    }
+
+    function checkAnswer() {
+      const userAnswer = parseInt(document.getElementById('answer').value, 10);
+      const [num1, num2] = document.getElementById('question').innerText.split('+').map(num => parseInt(num, 10));
+      const correctAnswer = num1 + num2;
+
+      if (userAnswer === correctAnswer) {
+        document.getElementById('result').innerText = 'Correct! Well done kid :)';
+        score += 10;
+      } else {
+        document.getElementById('result').innerText = 'Incorrect. Try again :(';
+      }
+
+      document.getElementById('question').innerText = generateQuestion();
+      document.getElementById('answer').value = '';
+      document.getElementById('score').innerText = score;
+    }
+
+    function updateTimer() {
+      timer--;
+
+      document.getElementById('timer').innerText = timer;
+
+      if (timer <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('result').innerText = `Game Over! Your final score is ${score}`;
+        
+        document.getElementById('answer').disabled = true;
+      
+      }
+    }
+       
+    document.getElementById('question').innerText = generateQuestion();
+    timerInterval = setInterval(updateTimer, 1000);
+
+    // Animal Safari Exploration Code
+
+    const animals = [
+      { name: 'Lion', image: 'https://wallpapers.com/images/hd/lion-pictures-snw3r6217skr1ni5.jpg', 
+      info: 'The lion is a large cat species and is known for its majestic mane.' },
+
+      { name: 'Elephant', image: 'https://png.pngtree.com/background/20230610/original/pngtree-hd-elephant-walk-king-sized-wallpaper-4-k-picture-image_3054188.jpg', info: 'Elephants are the largest land animals and have a long trunk.' },
+
+      { name: 'Giraffe', image: 'https://images3.alphacoders.com/277/277009.jpg', info: 'Giraffes are known for their long necks and distinctive spotted pattern.' },
+
+      { name: 'Tiger', image: 'https://img.freepik.com/free-photo/view-tiger-animal-wild_23-2150374850.jpg', info: 'Tigers are the largest wild cats in the world and it can weigh up to 363kg.'},
+
+      // Add more animals as needed
+    ];
+
+    let imageindex=-1;
+
+    function exploreSafari() {
+      imageindex = (imageindex +1 ) % animals.length;
+
+      const randomAnimal = animals[imageindex];
+
+      document.getElementById('animalImage').src = randomAnimal.image;
+
+      document.getElementById('animalImage').alt = randomAnimal.name;
+
+      document.getElementById('animalInfo').innerText = randomAnimal.info;
+    }
+
+//plants code
+    // You can add interactivity, event listeners, etc.
+
+    const plantContainers = document.querySelectorAll('.plant-container');
+
+    plantContainers.forEach(plantContainer => {
+        const plantInfo = plantContainer.querySelector('.plant-info');
+
+        plantContainer.addEventListener('click', () => {
+            // Toggle visibility of plant info
+            plantInfo.style.display = (plantInfo.style.display === 'none' || plantInfo.style.display === '') ? 'block' : 'none';
+        });
+    });
+
+
+  </script>
+</body>
+</html>
